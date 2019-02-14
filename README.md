@@ -12,6 +12,25 @@ This README covers installing and setting up Cavy, writing Cavy tests and FAQs.
 For information on how to use Cavy's **command line interface**, check out
 [cavy-cli][cli].
 
+## About this fork
+
+This fork contains major backwards-incompatible changes. It's meant to work around
+some limitations of the cavy in regards to the project I am currently using
+it in. Maybe some of the ideas outlined in this fork might find it back to the
+original. Most of the changes are to make it match the rewrites of the cavy-cli
+which you can find in its for over at [THIS URL](https://github.com/dkaufhold/cavy-cli/)
+  
+Also the rest of this readme might not match the new additions.
+
+Note: Installing from NPM means installing the original.
+
+I'm on it :)
+
+## Known incompatibilities
+
+* Expo is required (which is ok if you have a fresh, recent React Native project)
+* Requires [fork of CLI](https://github.com/dkaufhold/cavy-cli/)
+
 ## Table of Contents
 - [How does it work?](#how-does-it-work)
   - [CLI and continuous integration](#cli-and-continuous-integration)
