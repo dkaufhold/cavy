@@ -3,7 +3,7 @@
 // The TestScope also includes all the functions available when writing your
 // spec files.
 
-import { messageCavyServer } from '../../src/common/utils'
+import { messageCavyServer } from './serverUtils'
 import TestHookStore from './TestHookStore'
 import Tester from './Tester'
 import React from 'react'
