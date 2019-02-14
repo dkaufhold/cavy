@@ -13,7 +13,6 @@ const prop_types_1 = require("prop-types");
 const react_native_1 = require("react-native");
 const TestHookStore_1 = require("./TestHookStore");
 const TestScope_1 = require("./TestScope");
-const react_native_2 = require("react-native");
 const Expo_1 = require("expo/build/Expo");
 // Public: Wrap your entire app in Tester to run tests against that app,
 // interacting with registered components in your test cases via the Cavy
@@ -94,6 +93,7 @@ class Tester extends react_1.Component {
     }
     componentDidMount() {
         return __awaiter(this, void 0, void 0, function* () {
+            // @ts-ignore
             if (__DEV__) {
                 const initCavyConnection = (allowedRetries = 3) => {
                     const scriptURLSplit = react_native_1.NativeModules.SourceCode.scriptURL.split(':');
@@ -179,9 +179,9 @@ class Tester extends react_1.Component {
         });
     }
     render() {
-        return (<react_native_2.View key={this.state.key} style={{ flex: 1 }}>
+        return (<react_native_1.View key={this.state.key} style={{ flex: 1 }}>
         {react_1.Children.only(this.props.children)}
-      </react_native_2.View>);
+      </react_native_1.View>);
     }
 }
 Tester.defaultProps = {

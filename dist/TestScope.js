@@ -12,7 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = require("../../src/common/utils");
+const serverUtils_1 = require("./serverUtils");
 class ComponentNotFoundError extends Error {
     constructor(message) {
         super(message);
@@ -92,7 +92,7 @@ class TestScope {
         });
     }
     static sendReport(report) {
-        utils_1.messageCavyServer(report, 'REPORT');
+        serverUtils_1.messageCavyServer(report, 'REPORT');
     }
     isFullyVisible(identifier) {
         return __awaiter(this, void 0, void 0, function* () {
