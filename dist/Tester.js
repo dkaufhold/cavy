@@ -6,7 +6,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import React, { Component, Children } from 'react';
+import { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 import { Keyboard, AsyncStorage, Dimensions, NativeModules, View, } from 'react-native';
 import TestHookStore from './TestHookStore';
