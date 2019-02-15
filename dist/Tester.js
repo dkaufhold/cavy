@@ -6,7 +6,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Component, Children } from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import { Keyboard, AsyncStorage, Dimensions, NativeModules, View, } from 'react-native';
 import TestHookStore from './TestHookStore';
@@ -51,7 +51,7 @@ import { Constants } from 'expo/build/Expo';
 //       );
 //     }
 //   }
-export default class Tester extends Component {
+export default class Tester extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.setKeyboardState = (e) => {

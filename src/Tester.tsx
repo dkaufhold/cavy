@@ -1,4 +1,4 @@
-import React, { Component, Children } from 'react'
+import React, { Children } from 'react'
 import PropTypes from 'prop-types'
 import {
   Keyboard,
@@ -74,7 +74,7 @@ export interface State {
 //       );
 //     }
 //   }
-export default class Tester extends Component<Props, State> {
+export default class Tester extends React.Component<Props, State> {
   public testHookStore: TestHookStore
   private keyboardDidShowListener: EmitterSubscription
   private keyboardDidHideListener: EmitterSubscription

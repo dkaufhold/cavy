@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React from 'react';
 import TestHookStore from './TestHookStore';
 export interface Props {
     beforeAll: () => void;
@@ -19,7 +19,7 @@ export interface State {
         right: number;
     };
 }
-export default class Tester extends Component<Props, State> {
+export default class Tester extends React.Component<Props, State> {
     testHookStore: TestHookStore;
     private keyboardDidShowListener;
     private keyboardDidHideListener;
