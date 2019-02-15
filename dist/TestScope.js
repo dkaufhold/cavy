@@ -1,4 +1,3 @@
-"use strict";
 // Internal: Wrapper around an app being tested, and a bunch of test cases.
 //
 // The TestScope also includes all the functions available when writing your
@@ -11,8 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const serverUtils_1 = require("./serverUtils");
+import { messageCavyServer } from './serverUtils';
 class ComponentNotFoundError extends Error {
     constructor(message) {
         super(message);
@@ -31,7 +29,7 @@ class NoNativeComponentError extends Error {
         this.name = 'NoNativeComponentError';
     }
 }
-class TestScope {
+export default class TestScope {
     constructor(component, waitTime, startDelay, shouldSendReport) {
         this.component = component;
         this.testHooks = component.testHookStore;
@@ -92,7 +90,7 @@ class TestScope {
         });
     }
     static sendReport(report) {
-        serverUtils_1.messageCavyServer(report, 'REPORT');
+        messageCavyServer(report, 'REPORT');
     }
     isFullyVisible(identifier) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -268,5 +266,4 @@ class TestScope {
         });
     }
 }
-exports.default = TestScope;
 //# sourceMappingURL=TestScope.js.map

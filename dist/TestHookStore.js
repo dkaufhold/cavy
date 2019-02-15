@@ -1,11 +1,9 @@
-"use strict";
 // Public: A TestHookStore stores flattened references to UI components in your
 // app that you want to interact with as part of your integration tests.
 //
 // See Tester.js for an example of instantiating a TestHookStore for use with
 // a `<Tester />` component.
-Object.defineProperty(exports, "__esModule", { value: true });
-class TestHookStore {
+export default class TestHookStore {
     constructor() {
         this.hooks = {};
     }
@@ -35,5 +33,4 @@ class TestHookStore {
         return this.hooks[identifier];
     }
 }
-exports.default = TestHookStore;
 //# sourceMappingURL=TestHookStore.js.map

@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -7,13 +6,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = require("react");
-const prop_types_1 = require("prop-types");
-const react_native_1 = require("react-native");
-const TestHookStore_1 = require("./TestHookStore");
-const TestScope_1 = require("./TestScope");
-const Expo_1 = require("expo/build/Expo");
+import React, { Component, Children } from 'react';
+import PropTypes from 'prop-types';
+import { Keyboard, AsyncStorage, Dimensions, NativeModules, View, } from 'react-native';
+import TestHookStore from './TestHookStore';
+import TestScope from './TestScope';
+import { Constants } from 'expo/build/Expo';
 // Public: Wrap your entire app in Tester to run tests against that app,
 // interacting with registered components in your test cases via the Cavy
 // helpers (defined in TestScope).
@@ -53,11 +51,11 @@ const Expo_1 = require("expo/build/Expo");
 //       );
 //     }
 //   }
-class Tester extends react_1.Component {
+export default class Tester extends Component {
     constructor(props, context) {
         super(props, context);
         this.setKeyboardState = (e) => {
-            const { width, height } = react_native_1.Dimensions.get('window');
+            const { width, height } = Dimensions.get('window');
             if (e) {
                 const keyboardHeight = height - e.endCoordinates.screenY;
                 this.setState({
@@ -71,7 +69,7 @@ class Tester extends react_1.Component {
                 });
             }
         };
-        const { width, height } = react_native_1.Dimensions.get('window');
+        const { width, height } = Dimensions.get('window');
         this.state = {
             key: Math.random(),
             keyboardHeight: 0,
@@ -83,8 +81,8 @@ class Tester extends react_1.Component {
             },
         };
         this.testHookStore = props.store;
-        this.keyboardDidShowListener = react_native_1.Keyboard.addListener('keyboardDidShow', this.setKeyboardState);
-        this.keyboardDidHideListener = react_native_1.Keyboard.addListener('keyboardDidHide', this.setKeyboardState);
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.setKeyboardState);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.setKeyboardState);
     }
     getChildContext() {
         return {
@@ -96,7 +94,7 @@ class Tester extends react_1.Component {
             // @ts-ignore
             if (__DEV__) {
                 const initCavyConnection = (allowedRetries = 3) => {
-                    const scriptURLSplit = react_native_1.NativeModules.SourceCode.scriptURL.split(':');
+                    const scriptURLSplit = NativeModules.SourceCode.scriptURL.split(':');
                     const URL = `${scriptURLSplit[0]}:${scriptURLSplit[1]}` + ':3030';
                     let ws = new WebSocket(URL);
                     console.log('Trying to establish connection to test server.');
@@ -108,8 +106,8 @@ class Tester extends react_1.Component {
                         console.log('Connected with test server!');
                         ws.send(JSON.stringify({
                             status: 'CONNECTED',
-                            deviceName: Expo_1.Constants.deviceName,
-                            installationId: Expo_1.Constants.installationId,
+                            deviceName: Constants.deviceName,
+                            installationId: Constants.installationId,
                         }));
                     };
                     ws.onmessage = (evt) => {
@@ -155,7 +153,7 @@ class Tester extends react_1.Component {
                 else
                     addSpec(key, value);
             });
-            const scope = new TestScope_1.default(this, this.props.waitTime, this.props.startDelay, this.props.sendReport);
+            const scope = new TestScope(this, this.props.waitTime, this.props.startDelay, this.props.sendReport);
             for (var i = 0; i < specs.length; i++) {
                 yield specs[i](scope);
             }
@@ -170,7 +168,7 @@ class Tester extends react_1.Component {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.props.clearAsyncStorage) {
                 try {
-                    yield react_native_1.AsyncStorage.clear();
+                    yield AsyncStorage.clear();
                 }
                 catch (e) {
                     console.warn('[Cavy] failed to clear AsyncStorage:', e);
@@ -179,9 +177,9 @@ class Tester extends react_1.Component {
         });
     }
     render() {
-        return (<react_native_1.View key={this.state.key} style={{ flex: 1 }}>
-        {react_1.Children.only(this.props.children)}
-      </react_native_1.View>);
+        return (<View key={this.state.key} style={{ flex: 1 }}>
+        {Children.only(this.props.children)}
+      </View>);
     }
 }
 Tester.defaultProps = {
@@ -193,7 +191,6 @@ Tester.defaultProps = {
     startDelay: 0,
 };
 Tester.childContextTypes = {
-    testHooks: prop_types_1.default.instanceOf(TestHookStore_1.default),
+    testHooks: PropTypes.instanceOf(TestHookStore),
 };
-exports.default = Tester;
 //# sourceMappingURL=Tester.js.map

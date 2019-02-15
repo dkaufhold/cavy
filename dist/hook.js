@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = require("react");
-const prop_types_1 = require("prop-types");
-const hoist_non_react_statics_1 = require("hoist-non-react-statics");
-const TestHookStore_1 = require("./TestHookStore");
+import React from 'react';
+import PropTypes from 'prop-types';
+import hoistStatics from 'hoist-non-react-statics';
+import TestHookStore from './TestHookStore';
 // Public: Higher-order React component to factilitate adding hooks to the
 // global test hook store.
 //
@@ -24,8 +22,8 @@ const TestHookStore_1 = require("./TestHookStore");
 //   export default TestableMyComponent;
 //
 // Returns the new component.
-function hook(WrappedComponent) {
-    const wrapperComponent = class extends react_1.default.Component {
+export default function hook(WrappedComponent) {
+    const wrapperComponent = class extends React.Component {
         constructor(props, context) {
             super(props, context);
             this.generateTestHook = this.generateTestHook.bind(this);
@@ -77,10 +75,9 @@ function hook(WrappedComponent) {
     };
     // @ts-ignore TODO type all the context stuff
     wrapperComponent.contextTypes = {
-        testHooks: prop_types_1.default.instanceOf(TestHookStore_1.default),
+        testHooks: PropTypes.instanceOf(TestHookStore),
     };
     // @ts-ignore
-    return hoist_non_react_statics_1.default(wrapperComponent, WrappedComponent);
+    return hoistStatics(wrapperComponent, WrappedComponent);
 }
-exports.default = hook;
 //# sourceMappingURL=hook.js.map
