@@ -8,4 +8,5 @@ const Cavy = {
   TestHookStore
 };
 
+export default Cavy
 module.exports = Cavy;
