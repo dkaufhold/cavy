@@ -1,6 +1,6 @@
-import hook from "./dist/hook";
-import Tester from "./dist/Tester";
-import TestHookStore from "./dist/TestHookStore";
+import hook from "./src/hook";
+import Tester from "./src/Tester";
+import TestHookStore from "./src/TestHookStore";
 
 const Cavy = {
   hook,
