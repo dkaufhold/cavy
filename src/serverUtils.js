@@ -1,10 +1,7 @@
 import { Constants } from 'expo/build/Expo'
 import { NativeModules } from 'react-native'
 
-export const messageCavyServer = (
-  payload: { [key: string]: any },
-  status = 'DEFAULT',
-): void => {
+export const messageCavyServer = (payload,status = 'DEFAULT') => {
   if (__DEV__) {
     const scriptURLSplit = NativeModules.SourceCode.scriptURL.split(':')
     const URL = `${scriptURLSplit[0]}:${scriptURLSplit[1]}` + ':3030'

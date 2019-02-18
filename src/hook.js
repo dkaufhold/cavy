@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
 
@@ -24,8 +24,8 @@ import TestHookStore from './TestHookStore'
 //   export default TestableMyComponent;
 //
 // Returns the new component.
-export default function hook(WrappedComponent: React.Component) {
-  const wrapperComponent = class extends React.Component {
+export default function hook(WrappedComponent) {
+  const wrapperComponent = class extends Component {
     constructor(props, context) {
       super(props, context)
       this.generateTestHook = this.generateTestHook.bind(this)
@@ -55,11 +55,8 @@ export default function hook(WrappedComponent: React.Component) {
     //
     // Returns the ref-generating anonymous function which will be called by
     // React.
-    generateTestHook(
-      identifier: string,
-      f: (component: React.Component) => void,
-    ) {
-      return (component: React.Component) => {
+    generateTestHook(identifier, f = () => {}) {
+      return (component) => {
         if (!this.context.testHooks) {
           f(component)
           return
@@ -75,7 +72,6 @@ export default function hook(WrappedComponent: React.Component) {
 
     render() {
       return (
-        // @ts-ignore
         <WrappedComponent
           generateTestHook={this.generateTestHook}
           {...this.props}
@@ -84,11 +80,9 @@ export default function hook(WrappedComponent: React.Component) {
     }
   }
 
-  // @ts-ignore TODO type all the context stuff
   wrapperComponent.contextTypes = {
     testHooks: PropTypes.instanceOf(TestHookStore),
   }
 
-  // @ts-ignore
   return hoistStatics(wrapperComponent, WrappedComponent)
 }

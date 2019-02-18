@@ -4,10 +4,6 @@
 // spec files.
 
 import { messageCavyServer } from './serverUtils'
-import TestHookStore from './TestHookStore'
-import Tester from './Tester'
-import React from 'react'
-import { SpecFunction, TestCase, TestReport, TestResult } from './types'
 
 class ComponentNotFoundError extends Error {
   constructor(message) {
@@ -33,20 +29,7 @@ class NoNativeComponentError extends Error {
 }
 
 export default class TestScope {
-  private component: Tester
-  private testHooks: TestHookStore
-  private testCases: TestCase[]
-  private waitTime: number
-  private startDelay: number
-  private shouldSendReport: boolean
-  private describeLabel?: string
-
-  constructor(
-    component: Tester,
-    waitTime: number,
-    startDelay: number,
-    shouldSendReport: boolean,
-  ) {
+  constructor(component, waitTime, startDelay, shouldSendReport) {
     this.component = component
     this.testHooks = component.testHookStore
 
@@ -73,10 +56,10 @@ export default class TestScope {
   // Resets the app after each test case by changing the component key to force
   // React to re-render the entire component tree.
   async runTests() {
-    let testResults: TestResult[] = []
+    let testResults = []
     let errorCount = 0
 
-    const start = new Date().getTime()
+    const start = new Date()
     console.log(`Cavy test suite started at ${start}.`)
 
     for (let i = 0; i < this.testCases.length; i++) {
@@ -98,13 +81,13 @@ export default class TestScope {
       this.component.reRender()
     }
 
-    const stop = new Date().getTime()
+    const stop = new Date()
     const duration = (stop - start) / 1000
     console.log(
       `Cavy test suite stopped at ${stop}, duration: ${duration} seconds.`,
     )
 
-    const report: TestReport = {
+    const report = {
       results: testResults,
       errorCount: errorCount,
       duration: duration,
@@ -115,21 +98,19 @@ export default class TestScope {
     }
   }
 
-  static sendReport(report: TestReport): void {
+  static sendReport(report) {
     messageCavyServer(report, 'REPORT')
   }
 
-  async isFullyVisible(identifier: string): Promise<void> {
+  async isFullyVisible(identifier) {
     const component = await this.findComponent(identifier)
     let measurements
-    // @ts-ignore
     if (!component.measure)
       throw new NoNativeComponentError(
         `Component ${identifier} needs access to a native component's measure method.`,
       )
     else
       measurements = await new Promise((resolve) =>
-        // @ts-ignore
         component.measure((x, y, width, height, pageX, pageY) =>
           resolve({ x, y, width, height, pageX, pageY }),
         ),
@@ -171,30 +152,26 @@ export default class TestScope {
   // promise if the component is found, rejects the promise after
   // this.waitTime if the component is never found in the test hook
   // store.
-  findComponent(
-    identifier: string,
-  ): Promise<React.Component<{ onChangeText?: any; onPress?: any }>> {
-    return new Promise(
-      (resolve, reject): void => {
-        let startTime = Date.now()
-        let loop = setInterval(() => {
-          const component = this.testHooks.get(identifier)
-          if (component) {
+  findComponent(identifier) {
+    return new Promise((resolve, reject) => {
+      let startTime = Date.now()
+      let loop = setInterval(() => {
+        const component = this.testHooks.get(identifier)
+        if (component) {
+          clearInterval(loop)
+          return resolve(component)
+        } else {
+          if (Date.now() - startTime >= this.waitTime) {
+            reject(
+              new ComponentNotFoundError(
+                `Could not find component with identifier ${identifier}`,
+              ),
+            )
             clearInterval(loop)
-            return resolve(component)
-          } else {
-            if (Date.now() - startTime >= this.waitTime) {
-              reject(
-                new ComponentNotFoundError(
-                  `Could not find component with identifier ${identifier}`,
-                ),
-              )
-              clearInterval(loop)
-            }
           }
-        }, 100)
-      },
-    )
+        }
+      }, 100)
+    })
   }
 
   // Public: Build up a group of test cases.
@@ -216,7 +193,7 @@ export default class TestScope {
   //   }
   //
   // Returns undefined.
-  async describe(label: string, f: SpecFunction): Promise<void> {
+  async describe(label, f) {
     this.describeLabel = label
     await f.call(this)
   }
@@ -228,7 +205,7 @@ export default class TestScope {
   // f     - The test case.
   //
   // See example above.
-  async it(label: string, f: SpecFunction) {
+  async it(label, f) {
     const description = `${this.describeLabel}: ${label}`
     this.testCases.push({ description, f })
   }
@@ -241,7 +218,7 @@ export default class TestScope {
   //
   // Returns a promise, use await when calling this function. Promise will be
   // rejected if the component is not found.
-  async fillIn(identifier: string, str: string) {
+  async fillIn(identifier, str) {
     const component = await this.findComponent(identifier)
     component.props.onChangeText(str)
   }
@@ -265,7 +242,7 @@ export default class TestScope {
   //
   // Returns a promise, use await when calling this function.
   async pause(time) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(function() {
         resolve()
       }, time)

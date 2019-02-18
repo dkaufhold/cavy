@@ -5,9 +5,8 @@
 // a `<Tester />` component.
 
 import React from 'react'
-import { ITestHookStore } from './types'
 
-export default class TestHookStore implements ITestHookStore {
+export default class TestHookStore {
   hooks = {}
 
   // Internal: Add a new component into the store. If there is an existing
@@ -19,14 +18,14 @@ export default class TestHookStore implements ITestHookStore {
   // component  - Component returned by React `ref` function.
   //
   // Returns undefined.
-  add(identifier: string, component: React.Component): void {
+  add(identifier, component) {
     this.hooks[identifier] = component
   }
 
   // Internal: Remove a component from the store.
   //
   // Returns undefined.
-  remove(identifier: string): void {
+  remove(identifier) {
     delete this.hooks[identifier]
   }
 
@@ -34,7 +33,7 @@ export default class TestHookStore implements ITestHookStore {
   //
   // Returns the component corresponding to the provided identifier, or
   // undefined if it has not been added.
-  get(identifier: string): React.Component  {
+  get(identifier) {
     return this.hooks[identifier]
   }
 }

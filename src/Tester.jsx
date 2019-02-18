@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import {
   Keyboard,
@@ -6,35 +6,14 @@ import {
   Dimensions,
   NativeModules,
   EmitterSubscription,
-  View,
 } from 'react-native'
 
 import TestHookStore from './TestHookStore'
 import TestScope from './TestScope'
 
+import { View } from 'react-native'
 import { Constants } from 'expo/build/Expo'
-import { SpecFunction } from './types'
 
-export interface Props {
-  beforeAll: () => void
-  afterAll: () => void
-  waitTime: number
-  startDelay: number
-  sendReport: boolean
-  specs: Map<string, Function>
-  clearAsyncStorage: boolean
-}
-
-export interface State {
-  key: number
-  keyboardHeight: number
-  viewPortSize: {
-    top: number
-    left: number
-    bottom: number
-    right: number
-  }
-}
 // Public: Wrap your entire app in Tester to run tests against that app,
 // interacting with registered components in your test cases via the Cavy
 // helpers (defined in TestScope).
@@ -74,10 +53,17 @@ export interface State {
 //       );
 //     }
 //   }
-export default class Tester extends React.Component<Props, State> {
-  public testHookStore: TestHookStore
-  private keyboardDidShowListener: EmitterSubscription
-  private keyboardDidHideListener: EmitterSubscription
+export default class Tester extends Component {
+
+  static propTypes = {
+    beforeAll: PropTypes.func,
+    afterAll: PropTypes.func,
+    waitTime: PropTypes.number,
+    startDelay: PropTypes.number,
+    sendReport: PropTypes.bool,
+    specs: PropTypes.array,
+    clearAsyncStorage: PropTypes.bool,
+  }
   getChildContext() {
     return {
       testHooks: this.testHookStore,
@@ -122,7 +108,6 @@ export default class Tester extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    // @ts-ignore
     if (__DEV__) {
       const initCavyConnection = (allowedRetries = 3) => {
         const scriptURLSplit = NativeModules.SourceCode.scriptURL.split(':')
@@ -171,7 +156,7 @@ export default class Tester extends React.Component<Props, State> {
     this.keyboardDidHideListener.remove()
   }
 
-  setKeyboardState = (e): void => {
+  setKeyboardState = (e) => {
     const { width, height } = Dimensions.get('window')
     if (e) {
       const keyboardHeight = height - e.endCoordinates.screenY
@@ -187,21 +172,19 @@ export default class Tester extends React.Component<Props, State> {
     }
   }
 
-  async runTests(filter?: string): Promise<void> {
+  async runTests(filter) {
     await this.props.beforeAll()
-    const specs: SpecFunction[] = []
-    let filterKeywords: string[] = []
+    const specs = []
+    let filterKeywords = []
     if (filter) filterKeywords = filter.split(',')
-
-    function addSpec(key: string, value: SpecFunction): void {
+    function addSpec(key, value) {
       value.givenName = key
       specs.push(value)
     }
-
     this.props.specs.forEach(
-      (value: Function, key: string): void => {
+      (value, key) => {
         if (filterKeywords.length)
-          filterKeywords.forEach((filterKeyword: string) => {
+          filterKeywords.forEach((filterKeyword) => {
             if (key.indexOf(filterKeyword) !== -1) addSpec(key, value)
           })
         else addSpec(key, value)
@@ -220,11 +203,11 @@ export default class Tester extends React.Component<Props, State> {
     await this.props.afterAll()
   }
 
-  reRender(): void {
+  reRender() {
     this.setState({ key: Math.random() })
   }
 
-  async clearAsync(): Promise<void> {
+  async clearAsync() {
     if (this.props.clearAsyncStorage) {
       try {
         await AsyncStorage.clear()
