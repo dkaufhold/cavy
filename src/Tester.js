@@ -61,7 +61,7 @@ export default class Tester extends Component {
     waitTime: PropTypes.number,
     startDelay: PropTypes.number,
     sendReport: PropTypes.bool,
-    specs: PropTypes.array,
+    specs: PropTypes.instanceOf(Map),
     clearAsyncStorage: PropTypes.bool,
   }
   getChildContext() {
