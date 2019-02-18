@@ -36,8 +36,6 @@
     "hoist-non-react-statics": "^2.5.0",
     "prop-types": "^15.7.2"
   },
-  "devDependencies": {
-  },
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
