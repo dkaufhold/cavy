@@ -29,7 +29,7 @@ class NoNativeComponentError extends Error {
 }
 
 export default class TestScope {
-  constructor(component, waitTime, startDelay, shouldSendReport) {
+  constructor(component, waitTime, startDelay) {
     this.component = component
     this.testHooks = component.testHookStore
 
@@ -37,7 +37,6 @@ export default class TestScope {
 
     this.waitTime = waitTime
     this.startDelay = startDelay
-    this.shouldSendReport = shouldSendReport
 
     this.run.bind(this)
   }
@@ -93,9 +92,7 @@ export default class TestScope {
       duration: duration,
     }
 
-    if (this.shouldSendReport) {
-      await TestScope.sendReport(report)
-    }
+    await TestScope.sendReport(report)
   }
 
   static sendReport(report) {

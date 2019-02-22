@@ -14,45 +14,6 @@ import TestScope from './TestScope'
 import { View } from 'react-native'
 import { Constants } from 'expo/build/Expo'
 
-// Public: Wrap your entire app in Tester to run tests against that app,
-// interacting with registered components in your test cases via the Cavy
-// helpers (defined in TestScope).
-//
-// This component wraps your app inside a <View> to facilitate
-// re-rendering with a new key after each test case.
-//
-// store             - An instance of TestHookStore.
-// specs             - An array of spec functions.
-// waitTime          - An integer representing the time in milliseconds that
-//                     the testing framework should wait for the function
-//                     findComponent() to return the 'hooked' component.
-// startDelay        - An integer representing the time in milliseconds before
-//                     test execution begins.
-// clearAsyncStorage - A boolean to determine whether to clear AsyncStorage
-//                     between each test. Defaults to `false`.
-// sendReport        - Boolean, set this to `true` to have Cavy try and
-//                     send a report to cavy-cli. Set to `false` by
-//                     default.
-//
-// Example
-//
-//   import { Tester, TestHookStore } from 'cavy';
-//
-//   import MyFeatureSpec from './specs/MyFeatureSpec';
-//   import OtherFeatureSpec from './specs/OtherFeatureSpec';
-//
-//   const testHookStore = new TestHookStore();
-//
-//   export default class AppWrapper extends React.Component {
-//     // ....
-//     render() {
-//       return (
-//         <Tester specs={[MyFeatureSpec, OtherFeatureSpec]} store={testHookStore}>
-//           <App />
-//         </Tester>
-//       );
-//     }
-//   }
 export default class Tester extends Component {
 
   static propTypes = {
@@ -60,7 +21,6 @@ export default class Tester extends Component {
     afterAll: PropTypes.func,
     waitTime: PropTypes.number,
     startDelay: PropTypes.number,
-    sendReport: PropTypes.bool,
     specs: PropTypes.instanceOf(Map),
     clearAsyncStorage: PropTypes.bool,
   }
@@ -73,7 +33,6 @@ export default class Tester extends Component {
   static defaultProps = {
     beforeAll: () => null,
     afterAll: () => null,
-    sendReport: true,
     clearAsyncStorage: false,
     waitTime: 2000,
     startDelay: 0,
@@ -194,7 +153,6 @@ export default class Tester extends Component {
       this,
       this.props.waitTime,
       this.props.startDelay,
-      this.props.sendReport,
     )
     for (var i = 0; i < specs.length; i++) {
       await specs[i](scope)
