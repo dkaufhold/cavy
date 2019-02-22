@@ -1,6 +1,6 @@
 {
-  "name": "cavy",
-  "version": "0.6.1",
+  "name": "cavy-forked",
+  "version": "0.7.0",
   "description": "An integration test framework for React Native.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixielabs/cavy.git"
+    "url": "git+https://github.com/dkaufhold/cavy-forked.git"
   },
   "keywords": [
     "react",
@@ -28,9 +28,9 @@
   "author": "Pixie Labs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pixielabs/cavy/issues"
+    "url": "https://github.com/dkaufhold/cavy-forked/issues"
   },
-  "homepage": "https://github.com/pixielabs/cavy#readme",
+  "homepage": "https://github.com/dkaufhold/cavy-forked#readme",
   "dependencies": {
     "create-react-class": "^15.6.0",
     "hoist-non-react-statics": "^2.5.0",
