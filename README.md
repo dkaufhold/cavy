@@ -91,7 +91,7 @@ It has not yet been released on npm
 
 ## Usage
 
-WIP (currently no sample provided but soon to be added): Check out [the sample app](https://github.com/dkaufhold/cavy/tree/master/sample-app/CavyDirectory)
+WIP (currently no sample provided but soon to be added): Check out [the sample app](https://github.com/dkaufhold/cavy-forked/tree/master/sample-app/CavyDirectory)
 for example usage. Here it is running:
 
 ### 1. Set up the Tester
@@ -213,7 +213,7 @@ The test runner will respect the order in which the test specs are registered. S
 
 You will need cavy-cli to actually run the tests.
 
-When you're done with [the setup](https://github.com/dkaufhold/cavy-cli#Installation), you can run `yarn cavy` or `npm run cavy` to start the test server.
+When you're done with [the setup](https://github.com/dkaufhold/cavy-forked-cli#Installation), you can run `yarn cavy` or `npm run cavy` to start the test server.
 
 You will need to start your app afterwards. Either in a simulator or a connected device.  
 If you're already running an app, you can just refresh it.
