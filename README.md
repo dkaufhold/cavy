@@ -89,6 +89,18 @@ or `npm`:
 
 It has not yet been released on npm
 
+Add this script to your `package.json`
+
+```json5
+{
+    // ...
+    "scripts": {
+        "cavy": "node ./node_modules/cavy-cli/src/server.js",
+    }
+    // ...
+}
+```
+
 ## Usage
 
 WIP (currently no sample provided but soon to be added): Check out [the sample app](https://github.com/dkaufhold/cavy-forked/tree/master/sample-app/CavyDirectory)
@@ -104,15 +116,14 @@ Instantiate a new `TestHookStore` and render your app inside a `Tester`.
 // App.js
 import React from 'react';
 import { Tester, TestHookStore } from 'cavy';
-import AppSpecs from './specs/index.js';
-import App from './app';
+import Specs from './specs/index.js';
 
 const testHookStore = new TestHookStore();
 
 export default class App extends React.Component {
   render() {
     return (
-      <Tester store={testHookStore} waitTime={4000}>
+      <Tester store={testHookStore} waitTime={4000} specs={Specs}>
         <MainAppCode />
       </Tester>
     );
