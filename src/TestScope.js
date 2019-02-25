@@ -274,10 +274,9 @@ export default class TestScope {
     throw new Error(`Component with identifier ${identifier} was present`)
   }
 
-  async valueEqual(identifier, value, key = 'value') {
-    const component = await this.findComponent(identifier)
-    if (component[key] === value)
+  async assertTrue(value) {
+    if (!!value)
       return true
-    else throw new Error(`Component attribute ${key} did not match value ${value}.`)
+    else new Error(`Value "${value}" did not evaluate to "true".`)
   }
 }
