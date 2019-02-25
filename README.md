@@ -1,9 +1,10 @@
 # Cavy(forked)
 
 **Cavy** is a cross-platform integration test framework for React Native, by
-[Pixie Labs](http://pixielabs.io). You can get it [HERE](https://github.com/pixielabs/cavy/)  
-**Cavy(forked)** tries to build on top of the great work of the original authors
-by adding to it or rebuilding original parts.
+[Pixie Labs](http://pixielabs.io).
+
+**Cavy(forked)** tries to build on top of the great work of the original
+by adding to it or rebuilding it in parts.
 
 This README covers installing and setting up Cavy(forked), writing Cavy(forked) tests and FAQs.
 For information on how to use Cavy(forked)'s **command line interface**, check out
@@ -332,4 +333,4 @@ Because this fork already has been decoupled from many react native requirements
 Stay tuned
 
 [crna]: https://github.com/react-community/create-react-native-app
-[cli]: https://github.com/dkaufhold/cavy-cli
+[cli]: https://github.com/dkaufhold/cavy-forked-cli
