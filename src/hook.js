@@ -24,11 +24,10 @@ import TestHookStore from './TestHookStore'
 //   export default TestableMyComponent;
 //
 // Returns the new component.
-export default function hook(WrappedComponent) {
+export default function hook(WrappedComponent, wrappedComponentId) {
   const wrapperComponent = class extends Component {
     constructor(props, context) {
       super(props, context)
-      this.generateTestHook = this.generateTestHook.bind(this)
     }
 
     // Public: Call `this.props.generateTestHook` in a ref within your
@@ -55,12 +54,14 @@ export default function hook(WrappedComponent) {
     //
     // Returns the ref-generating anonymous function which will be called by
     // React.
-    generateTestHook(identifier, f = () => {}) {
+    generateTestHook = (identifier, f = () => {}) => {
       return (component) => {
         if (!this.context.testHooks) {
           f(component)
           return
         }
+        if (wrappedComponentId)
+          this.context.testHooks.add(wrappedComponentId, this)
         if (component) {
           this.context.testHooks.add(identifier, component)
         } else {
