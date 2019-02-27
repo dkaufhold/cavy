@@ -254,7 +254,8 @@ AppRegistry.registerComponent('AppWrapper', () => AppWrapper);
 | `exists(identifier)` | Returns `true` if the component can be identified (i.e. is currently on screen) |
 | `notExists(identifier)` | As above, but checks for the absence of the component |
 | `findComponent(identifier)` | Returns the identified component<br>Can be used if your component doesn't respond to either `onChangeText` or `onPress`<br>For example:<br>```const picker = await spec.findComponent('Scene.modalPicker');```<br>```picker.open();```|
-| `isFullyVisible` | (WIP:) Will check if the bounding box of the component is inside the visible viewport. It is able to check if the component is hidden behind the keyboard, but it will not be able check, if the component is obstructed by another component.
+| `isFullyVisible(identifier)` | (WIP:) Will check if the bounding box of the component is inside the <br>visible viewport.<br> It is able to check if the component is hidden behind the keyboard,<br> but it will not be able check, if the component is obstructed by another<br> component. There's currently one issue however: It's not guaranteed <br>that the keyboard will open on each focus of an input on the simulator,<br> so you might get false positives.
+| `assertEqual(value1, value2)` | Shortcut to test two values for equality |
 
 ## Writing your own spec helpers
 
