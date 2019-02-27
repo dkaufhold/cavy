@@ -101,6 +101,11 @@ export default class TestScope {
     messageCavyServer(report, "REPORT");
   }
 
+  static async assertEqual(value1, value2) {
+    if (value1 !== value2)
+      throw new Error(`Values are not equal ${value1} !== ${value2}`)
+  }
+
   async isFullyVisible(identifier) {
     const component = await this.findComponent(identifier);
     let measurements;
