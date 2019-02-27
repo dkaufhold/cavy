@@ -61,7 +61,7 @@ export default function hook(WrappedComponent, wrappedComponentId) {
           return
         }
         if (wrappedComponentId)
-          this.context.testHooks.add(wrappedComponentId, this)
+          this.context.testHooks.add(wrappedComponentId, this.component)
         if (component) {
           this.context.testHooks.add(identifier, component)
         } else {
@@ -74,6 +74,7 @@ export default function hook(WrappedComponent, wrappedComponentId) {
     render() {
       return (
         <WrappedComponent
+          ref={ref => this.component = ref}
           generateTestHook={this.generateTestHook}
           {...this.props}
         />
